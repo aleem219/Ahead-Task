@@ -64,10 +64,8 @@ struct ProfileView: View {
                         .background(Color(red: 0.94, green: 0.96, blue: 1.0))
                     }
                 }
-//                .padding(.vertical, 40)
-//                .ignoresSafeArea(.)
-                .edgesIgnoringSafeArea(.all)
             }
+            .ignoresSafeArea(.all, edges: .top)
         }
     }
 }
@@ -158,7 +156,7 @@ struct ProfileInfoSection: View {
                 StatView(value: "\(user.following)", label: "Following")
             }
             .padding(.horizontal, 32)
-            .padding(.top, 60)
+//            .padding(.top, 60)
 
             // Username
             Text(user.username)

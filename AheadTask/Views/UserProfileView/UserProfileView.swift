@@ -11,6 +11,7 @@ import SwiftUI
 struct UserProfileView: View {
     
     // MARK: - onBoarding inputs
+    @State private var navigateToMessage = false
     @State private var followerList:String = "1K"
     @State private var followingList:String = "342"
     @State private var userName:String = "Catherine"
@@ -18,6 +19,8 @@ struct UserProfileView: View {
     @State private var selectedAction: FollowActionState = .follow
     @State private var bio:String = "My name is Catherine. I like dancing in the rain and travelling all around the world."
     @Environment(\.presentationMode) var presentationMode
+    @State private var photos: [String] = ["profileImg", "profileImg", "profileImg", "profileImg", "profileImg", "profileImg"]
+    
     
     // MARK: - Body
     var body: some View {
@@ -28,6 +31,7 @@ struct UserProfileView: View {
                 VStack(spacing: 0) {
                     headerSection
                     infoSection
+                    tabSection
                     photoGrid
                 }
                 .frame(maxWidth: .infinity)
@@ -38,10 +42,23 @@ struct UserProfileView: View {
             }
             .ignoresSafeArea(edges: .top)
         }
-        .navigationBarItems(
-            leading: backButton,
-            trailing: messageButton
-        )
+        .navigationDestination(isPresented: $navigateToMessage) {
+            MessageView()
+        }
+        .onChange(of: navigateToMessage) {
+            if !navigateToMessage {
+                selectedAction = .follow
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                backButton
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                messageButton
+            }
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -100,11 +117,8 @@ private extension UserProfileView {
             
             actionButtons
                 .frame(maxWidth: .infinity)
-            
-            tabSection
-            
         }
-        .padding(.horizontal,40)
+        .padding(.horizontal, 40)
         .frame(maxWidth: .infinity)
     }
     
@@ -161,33 +175,46 @@ private extension UserProfileView {
     // MARK: - Action Buttons
     var actionButtons: some View {
         HStack(spacing: 16) {
-            
-            FollowActionButton(
-                action: .follow,
-                selectedAction: selectedAction
-            ) {
+            FollowActionButton(action: .follow, selectedAction: selectedAction) {
                 selectedAction = .follow
             }
             
-            FollowActionButton(
-                action: .message,
-                selectedAction: selectedAction
-            ) {
+            FollowActionButton(action: .message, selectedAction: selectedAction) {
                 selectedAction = .message
+                navigateToMessage = true
             }
         }
         .padding(.horizontal, 16)
+        .frame(height: 50)
+        .allowsHitTesting(true)
     }
     // MARK: - Tab Bar
     var tabSection: some View {
-        HStack(spacing: 32) {
+        HStack(spacing: 0) {
             ForEach(ProfileTab.allCases, id: \.self) { tab in
-                TabItemView(tab: tab, isSelected: selectedTab == tab) {
+                Button {
                     selectedTab = tab
+                } label: {
+                    VStack(spacing: 6) {
+                        Text(tab.rawValue)
+                            .font(.subheadline)
+                            .fontWeight(selectedTab == tab ? .semibold : .regular)
+                            .foregroundColor(selectedTab == tab ? .blue : .secondary)
+                        
+                        Capsule()
+                            .fill(selectedTab == tab ? Color.blue : Color.clear)
+                            .frame(height: 2)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 6)
+                    .contentShape(Rectangle())
                 }
+                .buttonStyle(.plain)
             }
         }
-        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 16)
+        .zIndex(10)
     }
     
     // MARK: - Nav Buttons
@@ -242,7 +269,7 @@ struct TabItemView: View {
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 6) {
-                Text(tab.title)
+                Text(tab.rawValue)
                     .font(.subheadline)
                     .fontWeight(isSelected ? .semibold : .regular)
                     .foregroundColor(isSelected ? .blue : .secondary)
@@ -251,26 +278,61 @@ struct TabItemView: View {
                     .fill(isSelected ? Color.blue : Color.clear)
                     .frame(height: 2)
             }
+            .frame(maxWidth: .infinity)
         }
+        .buttonStyle(.plain)
     }
 }
 
 // MARK: - Tab Enum
-enum ProfileTab: CaseIterable {
-    case all, photos, videos
+enum ProfileTab: String, CaseIterable {
+    case all = "All"
+    case photos = "Photos"
+    case videos = "Videos"
+}
+
+struct TabToggleSection2: View {
+    @Binding var selectedTab: ProfileTab
     
-    var title: String {
-        switch self {
-        case .all:    return "All"
-        case .photos: return "Photos"
-        case .videos: return "Videos"
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(ProfileTab.allCases, id: \.self) { tab in
+                Button(action: { selectedTab = tab }) {
+                    VStack(spacing: 6) {
+                        Text(tab.rawValue)
+                            .font(.system(size: 14, weight: selectedTab == tab ? .semibold : .regular))
+                            .foregroundColor(
+                                selectedTab == tab
+                                ? Color(red: 0.42, green: 0.65, blue: 0.97)
+                                : Color(red: 0.55, green: 0.58, blue: 0.68)
+                            )
+                        
+                        Rectangle()
+                            .fill(
+                                selectedTab == tab
+                                ? Color(red: 0.42, green: 0.65, blue: 0.97)
+                                : Color.clear
+                            )
+                            .frame(height: 2)
+                            .clipShape(Capsule())
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                }
+            }
         }
+        .padding(.horizontal, 24)
+        .background(Color(red: 0.94, green: 0.96, blue: 1.0))
+        .overlay(
+            Rectangle()
+                .fill(Color(red: 0.88, green: 0.91, blue: 0.96))
+                .frame(height: 1),
+            alignment: .bottom
+        )
     }
 }
 
 // MARK: - Preview
 #Preview {
-    NavigationView {
-        UserProfileView()
-    }
+    UserProfileView()
 }

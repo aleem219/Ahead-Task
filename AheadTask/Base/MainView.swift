@@ -37,7 +37,7 @@ struct MainView: View {
             
             .navigationDestination(for: StoryUser.self) { user in
                 UserProfileView()
-                    .navigationBarBackButtonHidden(true)
+//                    .navigationBarBackButtonHidden(true)
             }
             
             .ignoresSafeArea(edges: .bottom)
