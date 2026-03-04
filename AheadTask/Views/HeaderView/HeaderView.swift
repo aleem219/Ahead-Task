@@ -11,22 +11,22 @@ struct HeaderView: View {
     
     let title: String?
     
-    // Control visibility
+    
     var showLeading: Bool = true
     var showTitle: Bool = true
     var showTrailing: Bool = true
     
-    // Custom images
+   
     var leadingImage: UIImage? = nil
     var trailingImage: UIImage? = nil
     
-    // Actions
+  
     var onLeadingTap: (() -> Void)? = nil
     var onTrailingTap: (() -> Void)? = nil
     
     var body: some View {
         HStack {
-            // LEADING
+            
             if showLeading, let leadingImage = leadingImage {
                 Image(uiImage: leadingImage)
                     .resizable()
@@ -40,7 +40,6 @@ struct HeaderView: View {
             
             Spacer()
             
-            // TITLE
             if showTitle, let title = title {
                 Text(title)
                     .font(.title3)
@@ -50,7 +49,6 @@ struct HeaderView: View {
             
             Spacer()
             
-            // TRAILING
             if showTrailing, let trailingImage = trailingImage {
                 Image(uiImage: trailingImage)
                     .resizable()
