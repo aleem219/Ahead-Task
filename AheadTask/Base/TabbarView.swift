@@ -66,8 +66,6 @@ struct TabbarView: View {
                 Image(systemName: icon)
                     .font(.system(size: 22))
                     .foregroundColor(selectedIndex == index ? .white : .white.opacity(0.6))
-                
-                // Underline indicator
                 Rectangle()
                     .fill(selectedIndex == index ? Color.white : Color.clear)
                     .frame(width: 20, height: 2)

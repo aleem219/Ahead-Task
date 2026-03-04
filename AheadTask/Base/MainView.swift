@@ -11,32 +11,42 @@ struct MainView: View {
     
     @State private var currentIndex: Int = 0
     @State private var showMessage: Bool = false
+    @State private var path = NavigationPath()
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
+            
             ZStack(alignment: .bottom) {
                 Color(.systemBackground)
-                    .ignoresSafeArea()
-                
                 Group {
                     switch currentIndex {
-                    case 0: HomeView()
-                    case 2: Text("Notifications")
-                    case 3: Text("Notifications")
-                    default: HomeView()
+                    case 0:
+                        HomeView(path: $path)
+                    case 2:
+                        Text("Notifications")
+                    case 3:
+                        Text("Profile")
+                    default:
+                        HomeView(path: $path)
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
                 TabbarView(selectedIndex: $currentIndex)
+                    .ignoresSafeArea(edges: .bottom)
             }
-            .ignoresSafeArea(.all)
-            .toolbar(.hidden, for: .navigationBar)
+            
+            .navigationDestination(for: StoryUser.self) { user in
+                UserProfileView()
+            }
+            .ignoresSafeArea(edges: .bottom)
+            
+            
             .navigationDestination(isPresented: $showMessage) {
                 MessageView()
             }
-            .onChange(of: currentIndex) {
-                if currentIndex == 1 {
+            
+            .onChange(of: currentIndex) { oldValue, newValue in
+                if newValue == 1 {
                     showMessage = true
                     currentIndex = 0
                 }

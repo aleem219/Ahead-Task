@@ -24,16 +24,11 @@ struct StoryItemView: View {
                     )
                     .frame(width: 74, height: 74)
                 
-                Circle()
-                    .fill(Color.gray.opacity(0.3))
+                Image(user.image)
+                    .resizable()
+                    .scaledToFill()
                     .frame(width: 66, height: 66)
-                    .overlay(
-                        Image(user.image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 66, height: 66)
-                            .clipShape(Circle())
-                    )
+                    .clipShape(Circle())
                 
                 if user.isYou {
                     ZStack {

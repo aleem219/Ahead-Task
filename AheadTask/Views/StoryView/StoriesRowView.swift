@@ -7,23 +7,21 @@
 
 import SwiftUI
 
-import SwiftUI
+
 
 struct StoriesRowView: View {
     
-    let users: [StoryUser] = [
-        StoryUser(name: "You", image: "profileImg", isYou: true),
-          StoryUser(name: "Benjamin", image: "profileImg", isYou: false),
-          StoryUser(name: "Farita", image: "profileImg", isYou: false),
-          StoryUser(name: "Marie", image: "profileImg", isYou: false),
-          StoryUser(name: "Chris", image: "profileImg", isYou: false),
-    ]
+    let stories: [StoryUser]
+    @Binding var path: NavigationPath
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
-                ForEach(users) { user in
+                ForEach(stories) { user in
                     StoryItemView(user: user)
+                        .onTapGesture {
+                            path.append(user)
+                        }
                 }
             }
             .padding(.horizontal, 16)
@@ -32,6 +30,18 @@ struct StoriesRowView: View {
     }
 }
 
+
 #Preview {
-    StoriesRowView()
+    PreviewWrapper()
+}
+
+struct PreviewWrapper: View {
+    @State private var path = NavigationPath()
+    
+    var body: some View {
+        StoriesRowView(
+            stories: StoryUser.getMockData(),
+            path: $path
+        )
+    }
 }

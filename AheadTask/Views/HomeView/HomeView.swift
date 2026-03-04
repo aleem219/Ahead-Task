@@ -8,25 +8,50 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @Binding var path: NavigationPath
+    @StateObject private var viewModel = HomeViewModel()
+    
     var body: some View {
-        VStack(spacing: 0) {
-            HeaderView(
-                title: "Explore",
-                leadingImage: UIImage(named: "leadingCameraImg"),
-                trailingImage: UIImage(named: "trailingNotificationImg"),
-                onLeadingTap: { print("Menu tapped") },
-                onTrailingTap: { print("Notifications tapped") }
-            )
-            .padding(.top, 50)
-            StoriesRowView()
-            PostFeedView()
-            Spacer()
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 0) {
+                StoriesRowView(stories: viewModel.stories, path: $path)
+                    .padding(.top, 8)
+                PostFeedView(posts: viewModel.posts)
+            }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .ignoresSafeArea(.container, edges: .bottom)
+        .background(Color(.systemBackground))
+        .navigationTitle("Explore")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    print("Camera tapped")
+                } label: {
+                    Image("leadingCameraImg")
+                }
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    print("Notification tapped")
+                } label: {
+                    Image("trailingNotificationImg")
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    HomeView()
+    NavigationStack {
+        HomePreviewWrapper()
+    }
+}
+
+struct HomePreviewWrapper: View {
+    @State private var path = NavigationPath()
+    
+    var body: some View {
+        HomeView(path: $path)
+    }
 }
