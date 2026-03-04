@@ -10,6 +10,7 @@ import SwiftUI
 struct MainView: View {
     
     @State private var currentIndex: Int = 0
+    @State private var showMessage: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -20,10 +21,9 @@ struct MainView: View {
                 Group {
                     switch currentIndex {
                     case 0: HomeView()
-                    case 1: Text("Messages")
-                    case 2: Text("Messages")
+                    case 2: Text("Notifications")
                     case 3: Text("Notifications")
-                    default: Text("Messages")
+                    default: HomeView()
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -31,7 +31,16 @@ struct MainView: View {
                 TabbarView(selectedIndex: $currentIndex)
             }
             .ignoresSafeArea(.all)
-            .toolbar(.hidden, for: .navigationBar) 
+            .toolbar(.hidden, for: .navigationBar)
+            .navigationDestination(isPresented: $showMessage) {
+                MessageView()
+            }
+            .onChange(of: currentIndex) {
+                if currentIndex == 1 {
+                    showMessage = true
+                    currentIndex = 0
+                }
+            }
         }
     }
 }
