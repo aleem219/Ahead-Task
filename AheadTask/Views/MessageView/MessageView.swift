@@ -45,6 +45,7 @@ struct MessageView: View {
                 }
                 .background(Color(#colorLiteral(red: 0.9019607843, green: 0.9333333333, blue: 0.9803921569, alpha: 1)))
                 .clipShape(RoundedRectangle(cornerRadius: 50))
+                .padding(.bottom,30)
             }
         }
         .navigationBarHidden(true)
@@ -54,8 +55,6 @@ struct MessageView: View {
     private var backGroundImage: some View {
         Image("bacgroundImg")
             .resizable()
-            .scaledToFill()
-            .frame(height: 160)
             .clipped()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .ignoresSafeArea()
