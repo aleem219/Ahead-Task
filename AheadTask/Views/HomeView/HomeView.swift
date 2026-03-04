@@ -20,6 +20,10 @@ struct HomeView: View {
                 PostFeedView(posts: viewModel.posts)
             }
         }
+        .onAppear(perform: {
+            viewModel.getUsers()
+            viewModel.getPost()
+        })
         .background(Color(.systemBackground))
         .navigationTitle("Explore")
         .navigationBarTitleDisplayMode(.inline)

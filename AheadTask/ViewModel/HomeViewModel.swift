@@ -13,16 +13,11 @@ final class HomeViewModel:ObservableObject {
     @Published var stories: [StoryUser] = []
     @Published var posts: [PostModel] = []
     
-    init() {
-           getUsers()
-           getPost()
-       }
-    
-    private func getUsers() {
+    func getUsers() {
         stories  =  StoryUser.getMockData()
     }
     
-    private  func getPost() {
+    func getPost() {
         posts = PostModel.getMockData()
     }
 }
