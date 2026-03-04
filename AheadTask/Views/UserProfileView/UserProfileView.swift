@@ -17,6 +17,7 @@ struct UserProfileView: View {
     @State private var selectedTab: ProfileTab = .all
     @State private var selectedAction: FollowActionState = .follow
     @State private var bio:String = "My name is Catherine. I like dancing in the rain and travelling all around the world."
+    @Environment(\.presentationMode) var presentationMode
     
     // MARK: - Body
     var body: some View {
@@ -197,6 +198,9 @@ private extension UserProfileView {
                 .padding(8)
                 .background(.ultraThinMaterial)
                 .clipShape(Circle())
+                .onTapGesture {
+                    presentationMode.wrappedValue.dismiss()
+                }
         }
     }
     
