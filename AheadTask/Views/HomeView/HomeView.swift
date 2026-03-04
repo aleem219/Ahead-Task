@@ -19,7 +19,7 @@ struct HomeView: View {
             )
             .padding(.top, 50)
             StoriesRowView()
-            
+            PostFeedView()
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

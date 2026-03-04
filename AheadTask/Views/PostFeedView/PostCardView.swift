@@ -55,7 +55,7 @@ struct PostCardView: View {
                     }
                     
                     HStack(spacing: 6) {
-                        Image(systemName: "heart.fill")
+                        Image("imgHeart")
                             .foregroundColor(.white)
                         Text("\(post.likes)")
                             .foregroundColor(.white)
@@ -64,7 +64,7 @@ struct PostCardView: View {
                     
                     Spacer()
                     
-                    Image(systemName: "paperplane.fill")
+                    Image("imgPaperPlane")
                         .foregroundColor(.white)
                     Image("imgBookMark")
                         .foregroundColor(.white)
