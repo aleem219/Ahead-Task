@@ -32,7 +32,6 @@ struct UserProfileView: View {
                 .frame(maxWidth: .infinity)
                 .background(Color.white)
                 .cornerRadius(30)
-                .padding(.horizontal, 20)
                 .padding(.bottom, 16)
             }
             .ignoresSafeArea(edges: .top)
@@ -123,47 +122,60 @@ private extension UserProfileView {
     // MARK - Photo Grid
     var photoGrid: some View {
         let photos = viewModel.userDetail.first?.photos ?? []
+        
+        // Top 3 images
         let topImages = Array(photos.prefix(3))
+        // Bottom 3 images
         let bottomImages = Array(photos.dropFirst(3).prefix(3))
         
+        // Bottom row: 3 equal columns
+        let bottomColumns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 3)
+        
         return VStack(spacing: 8) {
+            
+            // TOP MOSAIC
             HStack(spacing: 8) {
+                
+                // LEFT BIG IMAGE
                 if let first = topImages.first {
                     Image(first)
                         .resizable()
                         .scaledToFill()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 200)
+                        .frame(width: (UIScreen.main.bounds.width - 20*2 - 8)*0.55, height: 96*2 + 8)
                         .clipped()
                         .cornerRadius(12)
                 }
+                
+                // RIGHT STACKED IMAGES
                 VStack(spacing: 8) {
                     ForEach(Array(topImages.dropFirst().enumerated()), id: \.offset) { _, name in
                         Image(name)
                             .resizable()
                             .scaledToFill()
-                            .frame(maxWidth: .infinity)
                             .frame(height: 96)
                             .clipped()
                             .cornerRadius(12)
                     }
                 }
-                .frame(maxWidth: .infinity)
+                .frame(width: (UIScreen.main.bounds.width - 20*2 - 8)*0.45)
             }
-            .padding(.horizontal, 12)
+            .padding(.horizontal, 20)
             
-            HStack(spacing: 8) {
-                ForEach(Array(bottomImages.enumerated()), id: \.offset) { _, name in
-                    Image(name)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 150)
-                        .clipped()
-                        .cornerRadius(12)
+            // BOTTOM ROW: LazyVGrid with 3 columns
+            if !bottomImages.isEmpty {
+                LazyVGrid(columns: bottomColumns, spacing: 8) {
+                    ForEach(bottomImages, id: \.self) { name in
+                        Image(name)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: 110)
+                            .clipped()
+                            .cornerRadius(12)
+                    }
                 }
+                .padding(.horizontal, 20)
             }
-            .padding(.horizontal, 12)
+            
         }
         .padding(.top, 8)
         .padding(.bottom, 20)
@@ -288,7 +300,7 @@ enum ProfileTab: String, CaseIterable {
     case videos = "Videos"
 }
 
-struct TabToggleSection2: View {
+struct TabToggleSection: View {
     @Binding var selectedTab: ProfileTab
     
     var body: some View {
