@@ -13,8 +13,8 @@ struct UserProfileView: View {
     // MARK: - onBoarding inputs
     @State private var navigateToMessage = false
     @State private var selectedTab: ProfileTab = .all
-    @State private var selectedAction: FollowActionState = .follow
     @Environment(\.presentationMode) var presentationMode
+    @State private var selectedAction: FollowActionState = .follow
     @StateObject private var viewModel = UserProfileDetailViewModel()
     
     // MARK: - Body
