@@ -12,15 +12,10 @@ struct UserProfileView: View {
     
     // MARK: - onBoarding inputs
     @State private var navigateToMessage = false
-    @State private var followerList:String = "1K"
-    @State private var followingList:String = "342"
-    @State private var userName:String = "Catherine"
     @State private var selectedTab: ProfileTab = .all
     @State private var selectedAction: FollowActionState = .follow
-    @State private var bio:String = "My name is Catherine. I like dancing in the rain and travelling all around the world."
     @Environment(\.presentationMode) var presentationMode
-    @State private var photos: [String] = ["profileImg", "profileImg", "profileImg", "profileImg", "profileImg", "profileImg"]
-    
+    @StateObject private var viewModel = UserProfileDetailViewModel()
     
     // MARK: - Body
     var body: some View {
@@ -41,6 +36,9 @@ struct UserProfileView: View {
                 .padding(.bottom, 16)
             }
             .ignoresSafeArea(edges: .top)
+        }
+        .onAppear {
+            viewModel.getUserrDetail()
         }
         .navigationDestination(isPresented: $navigateToMessage) {
             MessageView()
@@ -65,7 +63,7 @@ struct UserProfileView: View {
 // MARK: - Extracted Views
 private extension UserProfileView {
     
-    // MARK: - Header
+    // MARK - Header
     var headerSection: some View {
         ZStack(alignment: .bottom) {
             Image("bacgroundImg")
@@ -80,9 +78,9 @@ private extension UserProfileView {
         .padding(.bottom, 40)
     }
     
-    // MARK: - Profile Image
+    // MARK - Profile Image
     var profileAvatar: some View {
-        Image("profileImg")
+        Image(viewModel.userDetail.first?.profileAvatar ?? "0")
             .resizable()
             .scaledToFill()
             .frame(width: 90, height: 90)
@@ -91,25 +89,25 @@ private extension UserProfileView {
             .shadow(radius: 4)
     }
     
-    // MARK: - Stats
+    // MARK - Stats
     var statsRow: some View {
         HStack(spacing: 60) {
-            StatItemView(value: followerList, label: "Followers")
-            StatItemView(value: followingList, label: "Following")
+            StatItemView(value: viewModel.userDetail.first?.followerList ?? "0", label: "Followers")
+            StatItemView(value: viewModel.userDetail.first?.followingList ?? "0", label: "Following")
         }
         .padding(.horizontal,16)
     }
     
-    // MARK: - Info Section
+    // MARK - Info Section
     var infoSection: some View {
         VStack(spacing: 12) {
             statsRow
             
-            Text(userName)
+            Text(viewModel.userDetail.first?.userName ?? "")
                 .font(.title3)
                 .fontWeight(.bold)
             
-            Text(bio)
+            Text(viewModel.userDetail.first?.bio ?? "")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -122,40 +120,40 @@ private extension UserProfileView {
         .frame(maxWidth: .infinity)
     }
     
-    // MARK: - Photo Grid
+    // MARK - Photo Grid
     var photoGrid: some View {
-        VStack(spacing: 8) {
+        let photos = viewModel.userDetail.first?.photos ?? []
+        let topImages = Array(photos.prefix(3))
+        let bottomImages = Array(photos.dropFirst(3).prefix(3))
+        
+        return VStack(spacing: 8) {
             HStack(spacing: 8) {
-                Image("profileImg")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 200)
-                    .clipped()
-                    .cornerRadius(12)
-                
-                VStack(spacing: 8) {
-                    Image("profileImg")
+                if let first = topImages.first {
+                    Image(first)
                         .resizable()
                         .scaledToFill()
                         .frame(maxWidth: .infinity)
-                        .frame(height: 96)
-                        .clipped()
-                        .cornerRadius(12)
-                    
-                    Image("profileImg")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 96)
+                        .frame(height: 200)
                         .clipped()
                         .cornerRadius(12)
                 }
+                VStack(spacing: 8) {
+                    ForEach(Array(topImages.dropFirst().enumerated()), id: \.offset) { _, name in
+                        Image(name)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 96)
+                            .clipped()
+                            .cornerRadius(12)
+                    }
+                }
                 .frame(maxWidth: .infinity)
             }
+            .padding(.horizontal, 12)
             
             HStack(spacing: 8) {
-                ForEach(Array(["profileImg", "profileImg", "profileImg"].enumerated()), id: \.offset) { _, name in
+                ForEach(Array(bottomImages.enumerated()), id: \.offset) { _, name in
                     Image(name)
                         .resizable()
                         .scaledToFill()
@@ -165,14 +163,13 @@ private extension UserProfileView {
                         .cornerRadius(12)
                 }
             }
+            .padding(.horizontal, 12)
         }
-        .padding(8)
-        .background(Color.white)
-        .cornerRadius(20)
-        .padding(.bottom, 16)
+        .padding(.top, 8)
+        .padding(.bottom, 20)
     }
     
-    // MARK: - Action Buttons
+    // MARK - Action Buttons
     var actionButtons: some View {
         HStack(spacing: 16) {
             FollowActionButton(action: .follow, selectedAction: selectedAction) {
@@ -188,7 +185,7 @@ private extension UserProfileView {
         .frame(height: 50)
         .allowsHitTesting(true)
     }
-    // MARK: - Tab Bar
+    // MARK - Tab Bar
     var tabSection: some View {
         HStack(spacing: 0) {
             ForEach(ProfileTab.allCases, id: \.self) { tab in
@@ -217,7 +214,7 @@ private extension UserProfileView {
         .zIndex(10)
     }
     
-    // MARK: - Nav Buttons
+    // MARK - Nav Buttons
     var backButton: some View {
         Button { } label: {
             Image(systemName: "chevron.left")
@@ -231,7 +228,7 @@ private extension UserProfileView {
         }
     }
     
-    // MARK: - Message Button
+    // MARK - Message Button
     var messageButton: some View {
         Button { } label: {
             Image(systemName: "envelope")
@@ -243,7 +240,7 @@ private extension UserProfileView {
     }
 }
 
-// MARK: - Supporting Views
+// MARK - Supporting Views
 struct StatItemView: View {
     let value: String
     let label: String
@@ -260,7 +257,7 @@ struct StatItemView: View {
     }
 }
 
-// MARK: - Tab Item View
+// MARK - Tab Item View
 struct TabItemView: View {
     let tab: ProfileTab
     let isSelected: Bool
@@ -284,7 +281,7 @@ struct TabItemView: View {
     }
 }
 
-// MARK: - Tab Enum
+// MARK - Tab Enum
 enum ProfileTab: String, CaseIterable {
     case all = "All"
     case photos = "Photos"
