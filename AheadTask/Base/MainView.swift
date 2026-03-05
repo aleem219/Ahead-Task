@@ -40,6 +40,10 @@ struct MainView: View {
                 TabbarView(selectedIndex: $currentIndex)
                     .ignoresSafeArea(edges: .bottom)
             }
+            
+            .navigationDestination(for: StoryUser.self) { user in
+                UserProfileView()
+            }
             .ignoresSafeArea(edges: .bottom)
         }
     }
