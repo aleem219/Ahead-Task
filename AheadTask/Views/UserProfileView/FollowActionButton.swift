@@ -38,22 +38,52 @@ struct FollowActionButton: View {
             }
         } label: {
             Text(action.title)
+                .font(.system(size: 16, weight: .semibold))
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 10)
+                .padding(.vertical, 14)
                 .foregroundColor(isSelected ? .white : .primary)
                 .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(isSelected ? Color.blue : Color.white)
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(
-                            isSelected ? Color.blue : Color.gray,
-                            lineWidth: isSelected ? 0 : 1
+                    Capsule()
+                        .fill(isSelected
+                              ? Color(red: 0.42, green: 0.60, blue: 0.86)
+                              : Color.white)
+                        .shadow(
+                            color: isSelected
+                                ? Color(red: 0.42, green: 0.60, blue: 0.86).opacity(0.45)
+                                : Color.black.opacity(0.08),
+                            radius: isSelected ? 12 : 4,
+                            x: 0,
+                            y: isSelected ? 6 : 2
                         )
                 )
         }
+        .buttonStyle(.plain)
     }
+}
+
+struct FollowMessageButtonGroup: View {
+    @State private var selected: FollowActionState = .follow
+
+    var body: some View {
+        HStack(spacing: 12) {
+            FollowActionButton(action: .follow, selectedAction: selected) {
+                selected = .follow
+            }
+            FollowActionButton(action: .message, selectedAction: selected) {
+                selected = .message
+            }
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 24)
+                .fill(Color(red: 0.90, green: 0.93, blue: 0.97))
+        )
+        .padding()
+    }
+}
+
+#Preview {
+    FollowMessageButtonGroup()
 }
 
 #Preview {
