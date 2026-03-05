@@ -23,7 +23,7 @@ struct UserProfileDetailModel: Identifiable,Hashable {
 extension UserProfileDetailModel {
     static func getUserProfileDetailData() -> [UserProfileDetailModel] {
         return [
-            UserProfileDetailModel(userName: "Abdul Aleem", bio: "I am a man who drinks tea", followerList: "2K", followingList: "500", profileAvatar: "profileImg", photos: ["profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg",])
+            UserProfileDetailModel(userName: "Abdul Aleem", bio: "I am a man who drinks tea", followerList: "2K", followingList: "500", profileAvatar: "profileImg", photos: ["profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg","profileImg"])
         ]
     }
 }
