@@ -22,37 +22,25 @@ struct MainView: View {
                     switch currentIndex {
                     case 0:
                         HomeView(path: $path)
+                    case 1:
+                        Text("Messages")
                     case 2:
                         Text("Notifications")
                     case 3:
                         Text("Profile")
+                    case 4:
+                        Text("Center")
+                            .font(.headline)
+                            .fontWeight(.bold)
                     default:
                         HomeView(path: $path)
                     }
                 }
-                
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 TabbarView(selectedIndex: $currentIndex)
                     .ignoresSafeArea(edges: .bottom)
             }
-            
-            .navigationDestination(for: StoryUser.self) { user in
-                UserProfileView()
-//                    .navigationBarBackButtonHidden(true)
-            }
-            
             .ignoresSafeArea(edges: .bottom)
-            
-            
-            .navigationDestination(isPresented: $showMessage) {
-                MessageView()
-            }
-            
-            .onChange(of: currentIndex) { oldValue, newValue in
-                if newValue == 1 {
-                    showMessage = true
-                    currentIndex = 0
-                }
-            }
         }
     }
 }

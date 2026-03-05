@@ -29,27 +29,28 @@ struct TabbarView: View {
                 .shadow(radius: 10)
             
             HStack {
-                tabItem(icon: "house.fill", index: 0)
+                tabItem(icon:"tabHome", index: 0)
                 Spacer()
-                tabItem(icon: "bubble.left.fill", index: 1)
+                tabItem(icon: "tabChat", index: 1)
                 Spacer().frame(width: 110)
-                tabItem(icon: "person.fill", index: 2)
+                tabItem(icon: "tabProfile", index: 2)
                 Spacer()
-                tabItem(icon: "bell.fill", index: 3)
+                tabItem(icon: "tabNotification", index: 3)
             }
             .padding(.horizontal, 30)
             .frame(height: 85)
             
             Button {
+                selectedIndex = 4  // 👈 add this
                 print("Center tapped")
             } label: {
                 ZStack {
                     Circle()
-                        .fill(Color.white)
+                        .fill(Color(#colorLiteral(red: 0.9098039216, green: 0.8470588235, blue: 0.831372549, alpha: 1)).opacity(0.8))
                         .frame(width: 70, height: 70)
                         .shadow(radius: 6)
                     
-                    Image(systemName: "plus")
+                    Image("tabCenter")
                         .font(.system(size: 28, weight: .bold))
                         .foregroundColor(.blue)
                 }
@@ -63,7 +64,7 @@ struct TabbarView: View {
             selectedIndex = index
         } label: {
             VStack(spacing: 4) {
-                Image(systemName: icon)
+                Image(icon)
                     .font(.system(size: 22))
                     .foregroundColor(selectedIndex == index ? .white : .white.opacity(0.6))
                 Rectangle()
