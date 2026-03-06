@@ -186,14 +186,14 @@ struct TabToggleSection: View {
                             .font(.system(size: 14, weight: selectedTab == tab ? .semibold : .regular))
                             .foregroundColor(
                                 selectedTab == tab
-                                ? Color(red: 0.42, green: 0.65, blue: 0.97)
-                                : Color(red: 0.55, green: 0.58, blue: 0.68)
+                                ? Color(#colorLiteral(red: 0.4196078431, green: 0.6509803922, blue: 0.968627451, alpha: 1))
+                                : Color(#colorLiteral(red: 0.5490196078, green: 0.5803921569, blue: 0.6784313725, alpha: 1))
                             )
                         
                         Rectangle()
                             .fill(
                                 selectedTab == tab
-                                ? Color(red: 0.42, green: 0.65, blue: 0.97)
+                                ? Color(#colorLiteral(red: 0.4196078431, green: 0.6509803922, blue: 0.968627451, alpha: 1))
                                 : Color.clear
                             )
                             .frame(height: 2)
@@ -205,10 +205,10 @@ struct TabToggleSection: View {
             }
         }
         .padding(.horizontal, 24)
-        .background(Color(red: 0.94, green: 0.96, blue: 1.0))
+        .background(Color(#colorLiteral(red: 0.9411764706, green: 0.9607843137, blue: 1, alpha: 1)))
         .overlay(
             Rectangle()
-                .fill(Color(red: 0.88, green: 0.91, blue: 0.96))
+                .fill(Color(#colorLiteral(red: 0.8784313725, green: 0.9098039216, blue: 0.9607843137, alpha: 1)))
                 .frame(height: 1),
             alignment: .bottom
         )
