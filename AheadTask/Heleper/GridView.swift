@@ -95,5 +95,8 @@ struct GridView: View {
 }
 
 #Preview {
-    GridView(viewModel: UserProfileDetailViewModel())
+    let vm = UserProfileDetailViewModel()
+    vm.getUserrDetail()
+    
+    return GridView(viewModel: vm)
 }
