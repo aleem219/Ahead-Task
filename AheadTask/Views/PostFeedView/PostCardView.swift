@@ -27,7 +27,8 @@ struct PostCardView: View {
                         .foregroundColor(.black)
                     
                     Text(post.userHandle)
-                        .font(.system(size: 13))
+                        .font(.callout)
+                        .fontWeight(.medium)
                         .foregroundColor(.gray)
                 }
                 
@@ -37,6 +38,7 @@ struct PostCardView: View {
             .padding(.vertical, 10)
             
             ZStack(alignment: .bottom) {
+                
                 Image(post.postImage)
                     .resizable()
                     .scaledToFill()
@@ -45,6 +47,20 @@ struct PostCardView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .padding(.horizontal, 8)
                 
+                // Gradient Layer (missing layer)
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color.clear,
+                        Color.black.opacity(0.3)
+                    ]),
+                    startPoint: .trailing,
+                    endPoint: .trailing
+                )
+                .frame(height: 50)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding(.horizontal, 8)
+                
+                // Buttons
                 HStack {
                     HStack(spacing: 6) {
                         Image("imgMsg")
@@ -66,12 +82,14 @@ struct PostCardView: View {
                     
                     Image("imgPaperPlane")
                         .foregroundColor(.white)
+                    
                     Image("imgBookMark")
                         .foregroundColor(.white)
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 16)
             }
+            .padding(.bottom,15)
         }
         .background(
             RoundedRectangle(cornerRadius: 20)
