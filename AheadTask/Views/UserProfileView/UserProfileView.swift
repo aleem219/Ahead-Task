@@ -49,13 +49,21 @@ struct UserProfileView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                backButton
+                CommonToolbarButton(icon: .asset("arrowBack")) {
+                    dismiss()
+                }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                messageButton
+                CommonToolbarButton(icon: .asset("trailingMsgIcon")) {
+                    print("Back")
+                }
             }
         }
         .navigationBarBackButtonHidden(true)
+    }
+    
+    func dismiss () {
+        presentationMode.wrappedValue.dismiss()
     }
 }
 
@@ -242,31 +250,6 @@ private extension UserProfileView {
         .padding(.horizontal, 16)
         .padding(.top, 16)
         .zIndex(10)
-    }
-    
-    // MARK - Nav Buttons
-    var backButton: some View {
-        Button { } label: {
-            Image(systemName: "chevron.left")
-                .foregroundColor(.primary)
-                .padding(8)
-                .background(.ultraThinMaterial)
-                .clipShape(Circle())
-                .onTapGesture {
-                    presentationMode.wrappedValue.dismiss()
-                }
-        }
-    }
-    
-    // MARK - Message Button
-    var messageButton: some View {
-        Button { } label: {
-            Image(systemName: "envelope")
-                .foregroundColor(.primary)
-                .padding(8)
-                .background(.ultraThinMaterial)
-                .clipShape(Circle())
-        }
     }
 }
 

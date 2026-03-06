@@ -29,17 +29,13 @@ struct HomeView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    print("Camera tapped")
-                } label: {
-                    Image("leadingCameraImg")
+                CommonToolbarButton(icon: .asset("leadingCameraImg")) {
+                    print("Back")
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    print("Notification tapped")
-                } label: {
-                    Image("trailingNotificationImg")
+                CommonToolbarButton(icon: .asset("trailingNotificationImg")) {
+                    print("Back")
                 }
             }
         }
