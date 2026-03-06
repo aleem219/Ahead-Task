@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-//
+
 struct CurvedTabBarShape: Shape {
     
     var circleRadius: CGFloat = 35
@@ -15,32 +15,31 @@ struct CurvedTabBarShape: Shape {
         var path = Path()
         
         let centerX = rect.width / 2
-        let notchRadius = circleRadius
+        let depth: CGFloat = 50
         
-        // Start from top-left
         path.move(to: CGPoint(x: 0, y: 0))
         
-        // Left side
-        path.addLine(to: CGPoint(x: 0, y: rect.height))
-        path.addLine(to: CGPoint(x: rect.width, y: rect.height))
-        path.addLine(to: CGPoint(x: rect.width, y: 0))
+        path.addLine(to: CGPoint(x: centerX - 70, y: 0))
         
-        // Move to right of notch
-        path.addLine(to: CGPoint(x: centerX + notchRadius + 10, y: 0))
-        
-        // Notch
-        path.addArc(
-            center: CGPoint(x: centerX, y: 0),
-            radius: notchRadius + 10,
-            startAngle: .degrees(0),
-            endAngle: .degrees(180),
-            clockwise: false
+        path.addCurve(
+            to: CGPoint(x: centerX, y: depth),
+            control1: CGPoint(x: centerX - 40, y: 0),
+            control2: CGPoint(x: centerX - 40, y: depth)
         )
         
+        path.addCurve(
+            to: CGPoint(x: centerX + 70, y: 0),
+            control1: CGPoint(x: centerX + 40, y: depth),
+            control2: CGPoint(x: centerX + 40, y: 0)
+        )
+        
+        path.addLine(to: CGPoint(x: rect.width, y: 0))
+        
+        path.addLine(to: CGPoint(x: rect.width, y: rect.height))
+        path.addLine(to: CGPoint(x: 0, y: rect.height))
+    
         path.closeSubpath()
         
         return path
     }
 }
-
-

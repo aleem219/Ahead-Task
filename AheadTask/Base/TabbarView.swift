@@ -55,7 +55,7 @@ struct TabbarView: View {
                         .foregroundColor(.blue)
                 }
             }
-            .offset(y: -40)
+            .offset(y: -25)
         }
     }
     
