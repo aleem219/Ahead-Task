@@ -100,3 +100,18 @@ struct GridView: View {
     
     return GridView(viewModel: vm)
 }
+
+
+struct newView: View {
+    
+    var body: some View {
+        HStack {
+            
+        }
+        
+        
+        VStack {
+           
+        }
+    }
+}

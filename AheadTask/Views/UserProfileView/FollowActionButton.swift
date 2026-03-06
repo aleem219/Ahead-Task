@@ -61,31 +61,6 @@ struct FollowActionButton: View {
     }
 }
 
-struct FollowMessageButtonGroup: View {
-    @State private var selected: FollowActionState = .follow
-
-    var body: some View {
-        HStack(spacing: 12) {
-            FollowActionButton(action: .follow, selectedAction: selected) {
-                selected = .follow
-            }
-            FollowActionButton(action: .message, selectedAction: selected) {
-                selected = .message
-            }
-        }
-        .padding(20)
-        .background(
-            RoundedRectangle(cornerRadius: 24)
-                .fill(Color(red: 0.90, green: 0.93, blue: 0.97))
-        )
-        .padding()
-    }
-}
-
-#Preview {
-    FollowMessageButtonGroup()
-}
-
 #Preview {
     FollowActionButton(
         action: .follow,

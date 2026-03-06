@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-struct UserProfileDetailModel: Identifiable,Hashable {
+struct UserProfileDetailModel: Identifiable {
     let id = UUID()
     let userName: String
     let bio: String

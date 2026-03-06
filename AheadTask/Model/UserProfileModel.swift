@@ -26,7 +26,7 @@ struct UserProfileModel: Identifiable {
     let following: String
     let profileImage: String
     let headerImage: String
-    let photos: [ProfilePhoto]          // ← changed
+    let photos: [ProfilePhoto]
     
     init(
         id: UUID = UUID(),
