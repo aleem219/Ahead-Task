@@ -26,8 +26,8 @@ struct UserProfileView: View {
                 VStack(spacing: 0) {
                     headerSection
                     infoSection
-                    tabSection
-                    photoGrid
+                    TabSection(selectedTab: $selectedTab)
+                    GridView(viewModel: viewModel)
                 }
                 .frame(maxWidth: .infinity)
                 .background(Color.white)
@@ -120,136 +120,14 @@ private extension UserProfileView {
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
             
-            actionButtons
-                .frame(maxWidth: .infinity)
+            ActionButton(
+                selectedAction: $selectedAction,
+                navigateToMessage: $navigateToMessage
+            )
+            .frame(maxWidth: .infinity)
         }
         .padding(.horizontal, 40)
         .frame(maxWidth: .infinity)
-    }
-    
-    // MARK - Photo Grid
-    var photoGrid: some View {
-        
-        let photos = viewModel.userDetail.first?.photos ?? []
-        
-        let availableWidth = UIScreen.main.bounds.width - 20 * 2 - 8
-        let leftWidth  = availableWidth * 0.55
-        let rightWidth = availableWidth * 0.45
-        
-        let smallHeight: CGFloat = 96
-        let smallSpacing: CGFloat = 4
-        
-        let bigHeight = smallHeight * 2 + smallSpacing
-        
-        let bottomColumns = Array(
-            repeating: GridItem(.flexible(), spacing: smallSpacing),
-            count: 3
-        )
-        
-        let chunks = stride(from: 0, to: photos.count, by: 6).map {
-            Array(photos[$0..<min($0 + 6, photos.count)])
-        }
-        
-        return VStack(spacing: smallSpacing) {
-            
-            ForEach(Array(chunks.enumerated()), id: \.offset) { _, chunk in
-                
-                let topImages = Array(chunk.prefix(3))
-                let bottomImages = Array(chunk.dropFirst(3).prefix(3))
-                
-                // MARK: Top Section
-                HStack(alignment: .top, spacing: smallSpacing) {
-                    
-                    if let first = topImages.first {
-                        Image(first)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: leftWidth, height: bigHeight)
-                            .clipped()
-                            .cornerRadius(12)
-                    }
-                    
-                    VStack(spacing: smallSpacing) {
-                        
-                        ForEach(Array(topImages.dropFirst().enumerated()), id: \.offset) { _, name in
-                            Image(name)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: rightWidth, height: smallHeight)
-                                .clipped()
-                                .cornerRadius(12)
-                        }
-                    }
-                }
-                .padding(.horizontal, 20)
-                
-                
-                // MARK: Bottom Grid
-                if !bottomImages.isEmpty {
-                    
-                    LazyVGrid(columns: bottomColumns, spacing: smallSpacing) {
-                        
-                        ForEach(Array(bottomImages.enumerated()), id: \.offset) { _, name in
-                            Image(name)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(height: smallHeight)
-                                .clipped()
-                                .cornerRadius(12)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                }
-            }
-        }
-        .padding(.top, 8)
-        .padding(.bottom, 20)
-    }
-    
-    // MARK - Action Buttons
-    var actionButtons: some View {
-        HStack(spacing: 16) {
-            FollowActionButton(action: .follow, selectedAction: selectedAction) {
-                selectedAction = .follow
-            }
-            
-            FollowActionButton(action: .message, selectedAction: selectedAction) {
-                selectedAction = .message
-                navigateToMessage = true
-            }
-        }
-        .padding(.horizontal, 16)
-        .frame(height: 50)
-        .allowsHitTesting(true)
-    }
-    // MARK - Tab Bar
-    var tabSection: some View {
-        HStack(spacing: 0) {
-            ForEach(ProfileTab.allCases, id: \.self) { tab in
-                Button {
-                    selectedTab = tab
-                } label: {
-                    VStack(spacing: 6) {
-                        Text(tab.rawValue)
-                            .font(.subheadline)
-                            .fontWeight(selectedTab == tab ? .semibold : .regular)
-                            .foregroundColor(selectedTab == tab ? .blue : .secondary)
-                        
-                        Capsule()
-                            .fill(selectedTab == tab ? Color.blue : Color.clear)
-                            .frame(height: 2)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 6)
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.horizontal, 16)
-        .padding(.top, 16)
-        .zIndex(10)
     }
 }
 
@@ -294,12 +172,7 @@ struct TabItemView: View {
     }
 }
 
-// MARK - Tab Enum
-enum ProfileTab: String, CaseIterable {
-    case all = "All"
-    case photos = "Photos"
-    case videos = "Videos"
-}
+
 
 struct TabToggleSection: View {
     @Binding var selectedTab: ProfileTab
