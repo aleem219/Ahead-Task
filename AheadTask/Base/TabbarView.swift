@@ -10,6 +10,7 @@ import SwiftUI
 struct TabbarView: View {
     
     @Binding var selectedIndex: Int
+    let tabbarHeight: CGFloat = 85
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -25,7 +26,9 @@ struct TabbarView: View {
                         endPoint: .trailing
                     )
                 )
-                .frame(height: 85)
+                .fill(.clear)   // 👈 transparent
+                .background(.clear)
+                .frame(height: tabbarHeight)
                 .shadow(radius: 10)
             
             HStack {

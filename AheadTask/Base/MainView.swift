@@ -17,7 +17,10 @@ struct MainView: View {
         NavigationStack(path: $path) {
             
             ZStack(alignment: .bottom) {
+                
                 Color(.systemBackground)
+                    .ignoresSafeArea()
+                    
                 Group {
                     switch currentIndex {
                     case 0:
@@ -30,13 +33,13 @@ struct MainView: View {
                         Text("Profile")
                     case 4:
                         Text("Center")
-                            .font(.headline)
-                            .fontWeight(.bold)
                     default:
                         HomeView(path: $path)
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.bottom, 85)
+                
                 TabbarView(selectedIndex: $currentIndex)
                     .ignoresSafeArea(edges: .bottom)
             }
