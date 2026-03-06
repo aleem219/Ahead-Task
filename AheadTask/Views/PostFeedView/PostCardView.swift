@@ -67,7 +67,7 @@ struct PostCardView: View {
                             .foregroundColor(.white)
                         Text("\(post.comments)")
                             .foregroundColor(.white)
-                            .font(.system(size: 14, weight: .medium))
+                            .font(.system(size: 16, weight: .black))
                     }
                     
                     HStack(spacing: 6) {
@@ -75,7 +75,7 @@ struct PostCardView: View {
                             .foregroundColor(.white)
                         Text("\(post.likes)")
                             .foregroundColor(.white)
-                            .font(.system(size: 14, weight: .medium))
+                            .font(.system(size: 16, weight: .black))
                     }
                     
                     Spacer()
