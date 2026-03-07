@@ -97,21 +97,5 @@ struct GridView: View {
 #Preview {
     let vm = UserProfileDetailViewModel()
     vm.getUserrDetail()
-    
     return GridView(viewModel: vm)
-}
-
-
-struct newView: View {
-    
-    var body: some View {
-        HStack {
-            
-        }
-        
-        
-        VStack {
-           
-        }
-    }
 }

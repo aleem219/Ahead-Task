@@ -17,7 +17,6 @@ struct PostModel: Identifiable {
     let likes: Int
 }
 
-
 extension PostModel {
     static func getMockData() -> [PostModel] {
         return [
@@ -27,6 +26,5 @@ extension PostModel {
             PostModel(userName: "Farita Smith", userHandle: "@SmithFa", userImage: "profileImg", postImage: "profileImg", comments: 5, likes: 98),
             PostModel(userName: "Claire Dangais", userHandle: "@ClaireD15", userImage: "profileImg", postImage: "profileImg", comments: 10, likes: 122),
         ]
-        
     }
 }

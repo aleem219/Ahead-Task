@@ -32,12 +32,10 @@ struct StoryItemView: View {
                 
                 if user.isYou {
                     ZStack {
-                        // Semi-transparent overlay
                         Circle()
                             .fill(Color.black.opacity(0.25))
                             .frame(width: 66, height: 66)
                         
-                        // + icon in center
                         Image(systemName: "plus")
                             .font(.system(size: 24, weight: .bold))
                             .foregroundColor(.white)

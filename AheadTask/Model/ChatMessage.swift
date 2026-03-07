@@ -13,7 +13,6 @@ struct ChatMessageModel: Identifiable,Hashable {
     let isMe: Bool
 }
 
-
 extension ChatMessageModel {
     static func getChatMockData() -> [ChatMessageModel] {
         return [

@@ -14,5 +14,4 @@ final class UserProfileDetailViewModel: ObservableObject {
     func getUserrDetail() {
         userDetail  =  UserProfileDetailModel.getUserProfileDetailData()
     }
-    
 }

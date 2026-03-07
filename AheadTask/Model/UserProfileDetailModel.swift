@@ -17,7 +17,6 @@ struct UserProfileDetailModel: Identifiable {
     let photos: [String]
 }
 
-
 extension UserProfileDetailModel {
     static func getUserProfileDetailData() -> [UserProfileDetailModel] {
         return [

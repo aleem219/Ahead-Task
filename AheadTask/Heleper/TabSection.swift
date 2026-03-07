@@ -14,7 +14,6 @@ struct TabSection: View {
         tabSection
     }
     
-    
     var tabSection: some View {
         HStack(spacing: 0) {
             ForEach(ProfileTab.allCases, id: \.self) { tab in

@@ -26,7 +26,7 @@ struct TabbarView: View {
                         endPoint: .trailing
                     )
                 )
-                .fill(.clear)   // 👈 transparent
+                .fill(.clear)
                 .background(.clear)
                 .frame(height: tabbarHeight)
                 .shadow(radius: 10)
@@ -42,9 +42,8 @@ struct TabbarView: View {
             }
             .padding(.horizontal, 30)
             .frame(height: 85)
-            
             Button {
-                selectedIndex = 4  // 👈 add this
+                selectedIndex = 4
                 print("Center tapped")
             } label: {
                 ZStack {
@@ -52,7 +51,6 @@ struct TabbarView: View {
                         .fill(Color(#colorLiteral(red: 0.9098039216, green: 0.8470588235, blue: 0.831372549, alpha: 1)).opacity(0.8))
                         .frame(width: 70, height: 70)
                         .shadow(radius: 6)
-                    
                     Image("tabCenter")
                         .font(.system(size: 28, weight: .bold))
                         .foregroundColor(.blue)
@@ -78,7 +76,6 @@ struct TabbarView: View {
         }
     }
 }
-
 
 #Preview {
     ZStack {

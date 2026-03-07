@@ -15,7 +15,6 @@ struct StoryUser: Identifiable,Hashable {
     let isYou: Bool
 }
 
-
 extension StoryUser {
     static func getMockData() -> [StoryUser] {
         return [
