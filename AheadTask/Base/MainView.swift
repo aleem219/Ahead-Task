@@ -29,6 +29,11 @@ struct MainView: View {
                 TabbarView(selectedIndex: $currentIndex)
                     .ignoresSafeArea(edges: .bottom)
             }
+            .onChange(of: currentIndex) { _, newValue in
+                if let tab = SelectedTab(rawValue: newValue) {
+                    selectedTab = tab
+                }
+            }
             
             .navigationDestination(for: StoryUser.self) { user in
                 UserProfileView()
