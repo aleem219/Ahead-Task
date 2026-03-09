@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     @Binding var path: NavigationPath
-    @StateObject private var viewModel = HomeViewModel()
+    @State private var viewModel = HomeViewModel()
     
     var body: some View {
         ScrollView(showsIndicators: false) {

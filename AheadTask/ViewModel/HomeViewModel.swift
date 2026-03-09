@@ -7,11 +7,11 @@
 
 import Foundation
 
-
-final class HomeViewModel:ObservableObject {
+@Observable
+final class HomeViewModel {
     
-    @Published var stories: [StoryUser] = []
-    @Published var posts: [PostModel] = []
+     var stories: [StoryUser] = []
+     var posts: [PostModel] = []
     
     func getUsers() {
         stories  =  StoryUser.getMockData()
